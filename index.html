@@ -36,6 +36,7 @@
           .then(res => res.json())
           .then(data => {
             output.textContent = JSON.stringify(data, null, 2);
+            addToUrlHistory(url);
           })
           .catch(err => {
             output.textContent = 'Error: ' + err.message;
@@ -45,7 +46,7 @@
       function getUrlsFromLocalStorage(){
          // gets all the unique URLs the user has posted
          // from localStorage
-         allUrls = localStorage.getItem(urls);
+         allUrls = JSON.parse(localStorage.getItem("urls"));
          // if there are some stored URLs then we'll load the droplist
          if (allUrls){
             loadDropList();
@@ -62,6 +63,29 @@
          });
       }
 
+      function addToUrlHistory(newUrl){
+         allUrls = localStorage.getItem("urls");
+         // check to see if URL has been added before
+         var isNewUrl = true;         
+         if (allUrls){
+            isNewUrl = allUrls.forEach(u => {
+               if (u == newUrl){
+                  return false;
+               }});
+         } 
+         if (isNewUrl)
+         {
+            var urlHistoryEl = document.querySelector("#urlHistory");
+            if (allUrls == null){allUrls = [];}
+            allUrls.push(newUrl);
+            localStorage.setItem("urls",JSON.stringify(allUrls));
+            // insert into droplist
+            const option = document.createElement('option');
+            option.value = newUrl;
+            option.textContent = newUrl;
+            urlHistoryEl.appendChild(option);
+         }
+      }
     </script>
   </body>
 </html>
