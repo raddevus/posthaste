@@ -17,7 +17,7 @@
     </select>
     </p>
     <input id="urlInput" type="text" size="50"
-           value="https://pokeapi.co/api/v2/pokemon/" />
+           value="" />
     <button id="fetchBtn">Fetch</button>
     <div id="output"></div>
 
@@ -25,8 +25,16 @@
       const urlInput = document.querySelector("#urlInput");
       const fetchBtn = document.querySelector("#fetchBtn");
       const output = document.querySelector("#output");
-      document.addEventListener('DOMContentLoaded', () => getUrlsFromLocalStorage());
+      const urlHistory = document.querySelector("#urlHistory");
 
+      document.addEventListener('DOMContentLoaded', () => getUrlsFromLocalStorage());
+      urlHistory.addEventListener('change', () => {
+         console.log("i've changed...");
+       var selectedUrl = urlHistory.value;
+       if (selectedUrl) {
+         urlInput.value = selectedUrl;
+       }
+      });
       var allUrls = [];
       fetchBtn.addEventListener('click', () => {
         const url = urlInput.value.trim();
