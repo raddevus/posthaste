@@ -25,7 +25,7 @@
       const urlInput = document.querySelector("#urlInput");
       const fetchBtn = document.querySelector("#fetchBtn");
       const output = document.querySelector("#output");
-
+      var allUrls = [];
       fetchBtn.addEventListener('click', () => {
         const url = urlInput.value.trim();
         if (!url) return;
@@ -41,6 +41,27 @@
             output.textContent = 'Error: ' + err.message;
           });
       });
+
+      function getUrlsFromLocalStorage(){
+         // gets all the unique URLs the user has posted
+         // from localStorage
+         allUrls = localStorage.getItem(urls);
+         // if there are some stored URLs then we'll load the droplist
+         if (allUrls){
+            loadDropList();
+         }
+      }
+
+      function loadDropList(){
+        var urlHistoryEl = document.querySelector("#urlHistory"); 
+         allUrls.forEach(url => {
+            const option = document.createElement('option');
+            option.value = url;
+            option.textContent = url;
+            urlHistoryEl.appendChild(option);
+         });
+      }
+
     </script>
   </body>
 </html>
