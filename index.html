@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Electron Fetch Demo</title>
+    <style>
+      body { font-family: sans-serif; margin: 20px; }
+      #output { white-space: pre-wrap; margin-top: 1em; }
+    </style>
+  </head>
+  <body>
+    <h2>API Fetcher</h2>
+    <!-- The droplist -->
+    <p>
+     <select id="urlHistory" width="80%">
+      <option value="">-- Select a URL --</option>
+    </select>
+    </p>
+    <input id="urlInput" type="text" size="50"
+           value="https://pokeapi.co/api/v2/pokemon/" />
+    <button id="fetchBtn">Fetch</button>
+    <div id="output"></div>
+
+    <script>
+      const urlInput = document.querySelector("#urlInput");
+      const fetchBtn = document.querySelector("#fetchBtn");
+      const output = document.querySelector("#output");
+
+      fetchBtn.addEventListener('click', () => {
+        const url = urlInput.value.trim();
+        if (!url) return;
+
+        output.textContent = 'Loading...';
+
+        fetch(url)
+          .then(res => res.json())
+          .then(data => {
+            output.textContent = JSON.stringify(data, null, 2);
+          })
+          .catch(err => {
+            output.textContent = 'Error: ' + err.message;
+          });
+      });
+    </script>
+  </body>
+</html>
+
